@@ -33,7 +33,7 @@ The `gateway <https://github.com/hannes-hochreiner/sensor-net-gateway>`_ sends t
 The messages are sent using "serial over USB".
 They are formatted in JSON.
 
-.. code-block:: JSON
+.. code:: JSON
   :caption: "info" message
 
   {
@@ -41,7 +41,7 @@ They are formatted in JSON.
     "message": "sensor net gateway starting"
   }
 
-.. code-block:: JSON
+.. code:: JSON
   :caption: "rfm" message
 
   {
@@ -56,7 +56,7 @@ Output to Backend
 Messages to the `backend <https://github.com/hannes-hochreiner/sensor-net-back-end>`_ are sent over https as a "PUT" request on the "/message" endpoint.
 The messages must be sent in JSON.
 
-.. code-block:: JSON
+.. code:: JSON
   :caption: example message
 
   {
