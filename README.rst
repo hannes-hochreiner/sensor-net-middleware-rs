@@ -33,8 +33,7 @@ The `gateway <https://github.com/hannes-hochreiner/sensor-net-gateway>`_ sends t
 The messages are sent using "serial over USB".
 They are formatted in JSON.
 
-.. code-block:: bash
-  :caption: "info" message
+.. code-block:: JSON
 
   {
     "type": "info",
