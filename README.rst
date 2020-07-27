@@ -41,7 +41,6 @@ They are formatted in JSON.
   }
 
 .. code-block:: JSON
-  :caption: "rfm" message
 
   {
     "type": "rfm",
@@ -56,7 +55,6 @@ Messages to the `backend <https://github.com/hannes-hochreiner/sensor-net-back-e
 The messages must be sent in JSON.
 
 .. code-block:: JSON
-  :caption: example message
 
   {
     "type": "rfm",
