@@ -1,3 +1,5 @@
+.. image:: https://github.com/hannes-hochreiner/sensor-net-middleware-rs/workflows/CI/badge.svg
+
 Sensor Net Middleware
 =====================
 
