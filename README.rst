@@ -22,3 +22,59 @@ Installation
 .. code-block:: bash
 
   cargo install --git https://github.com/hannes-hochreiner/sensor-net-middleware-rs
+
+Interfaces
+----------
+
+Input from Gateway
+..................
+
+The `gateway <https://github.com/hannes-hochreiner/sensor-net-gateway>`_ sends two kinds of messages: "info" and "rfm".
+The messages are sent using "serial over USB".
+They are formatted in JSON.
+
+.. code-block:: JSON
+  :caption: "info" message
+
+  {
+    "type": "info",
+    "message": "sensor net gateway starting"
+  }
+
+.. code-block:: JSON
+  :caption: "rfm" message
+
+  {
+    "type": "rfm",
+    "rssi": "<rssi as string>",
+    "data": "<hex encoded, AES encrypted data>"
+  }
+
+Output to Backend
+.................
+
+Messages to the `backend <https://github.com/hannes-hochreiner/sensor-net-back-end>`_ are sent over https as a "PUT" request on the "/message" endpoint.
+The messages must be sent in JSON.
+
+.. code-block:: JSON
+  :caption: example message
+
+  {
+    "type": "rfm",
+    "rssi": "-87",
+    "timestamp": "2020-04-18T15:59:56.071Z",
+    "message": {
+      "mcuId": "005a0000-33373938-17473634",
+      "index": 1524,
+      "measurements": [
+        {
+          "sensorId": "be01",
+          "parameters": {
+            "temperature": { "value": 25.68000030517578, "unit": "°C" },
+            "relativeHumidity": { "value": 33.9677734375, "unit": "%" },
+            "pressure": { "value": 1001.1699829101562, "unit": "mbar" }
+          }
+        }
+      ]
+    }
+  }
