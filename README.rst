@@ -35,6 +35,16 @@ Installation
 
   cargo install --git https://github.com/hannes-hochreiner/sensor-net-middleware-rs
 
+Running
+-------
+
+.. code-block:: bash
+
+  sudo SENSOR_NET_DEVICE=/dev/ttyUSB0 SENSOR_NET_KEY=<key> \
+  RUST_LOG=info AUTH0_TENANT=<tenant> AUTH0_REGION=eu \
+  AUTH0_CLIENT_ID=<client> AUTH0_CLIENT_SECRET=<secret> \
+  AUTH0_CLIENT_AUDIENCE=<audience> sensor-net-middleware-rs
+
 Interfaces
 ----------
 
