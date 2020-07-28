@@ -3,21 +3,22 @@ use std::error::Error;
 use std::fmt;
 use std::convert::TryInto;
 use std::ops::Range;
+use serde::Serialize;
 
-#[derive(Debug, Clone)]
+#[derive(Serialize, Debug, Clone)]
 struct ParameterValue {
     value: f32,
     unit: String
 }
 
-#[derive(Debug)]
+#[derive(Serialize, Debug)]
 #[allow(non_snake_case)]
 struct Measurement {
     sensorId: String,
     parameters: HashMap<String, ParameterValue>
 }
 
-#[derive(Debug)]
+#[derive(Serialize, Debug)]
 #[allow(non_snake_case)]
 pub struct SensorMessage {
     r#type: String,

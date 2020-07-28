@@ -53,8 +53,8 @@ fn process_message(msg: &String, key: &Vec<u8>) -> Result<(), Box<dyn Error>> {
     let enc_data = Vec::from_hex(&msg.data)?;
     let cipher = Aes128Ecb::new_var(&key, Default::default())?;
     let plain_data = cipher.decrypt_vec(&enc_data)?;
-    let sens_msg = SensorMessage::parse(&msg.rssi, &plain_data);
-    debug!("{:?}", sens_msg);
+    let sens_msg = SensorMessage::parse(&msg.rssi, &plain_data)?;
+    debug!("{}", serde_json::to_string(&sens_msg)?);
 
     Ok(())
 }
