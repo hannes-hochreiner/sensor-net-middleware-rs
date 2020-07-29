@@ -1,0 +1,51 @@
+blockdiag {
+  default_fontsize = 11;
+  class group_sec [color = "#739FAD"];
+  class group_prim [color = "#C46375"];
+  class node_sec [color = "#E8D7FF"];
+  class node_prim [color = "#E4C5AF"];
+
+  group gw {
+    orientation = portrait;
+    label = "Gateway";
+    class = "group_sec";
+    gw_recv [label = "receive message"];
+    gw_write [label = "write message to USB"];
+  }
+
+  group mw {
+    orientation = portrait;
+    class = "group_prim";
+    label = "Middleware";
+    mw_recv [label = "receive message"];
+    mw_parse [label = "parse message"];
+    mw_dec [label = "decode\nmeasurement data"];
+    mw_parse_d [label = "parse\nmeasurement data"];
+    mw_ser [label = "serialize measurement"];
+    mw_check [shape = diamond, label = "valid token\navailable?"];
+    mw_send [label = "send\nmeasurement data"];
+    mw_req_token [label = "request\nauthorization token"];
+    mw_rec_token [label = "receive\nauthorization token"];
+  }
+
+  group auth {
+    label = "Auth0";
+    class = "group_sec";
+    auth0_check [label = "check authentication"];
+    auth0_send [label = "send\nauthorization token"];
+  }
+
+  group backend {
+    label = "Backend";
+    class = "group_sec";
+    be_rec [label = "receive data"];
+    be_store [label = "store data in database"];
+  }
+
+  gw_recv -> gw_write -> mw_recv -> mw_parse -> mw_dec -> mw_parse_d -> mw_ser -> mw_check;
+  mw_check -> mw_req_token [label = "no"];
+  mw_req_token -> auth0_check -> auth0_send -> mw_rec_token -> mw_send;
+  mw_req_token -> mw_rec_token [style = none];
+  mw_check -> mw_send [label = "yes"];
+  mw_send -> be_rec -> be_store;
+}
