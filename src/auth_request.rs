@@ -35,7 +35,8 @@ impl AuthRequest<'_> {
 
         let client = reqwest::Client::new();
         match client.put(&self.config.endpoint)
-            .header("authorization", format!("Bearer {}", self.token))
+            .header("Authorization", format!("Bearer {}", self.token))
+            .header("Content-Type", "application/json")
             .body(message)
             .send().await {
                 Ok(_) => Ok(()),
