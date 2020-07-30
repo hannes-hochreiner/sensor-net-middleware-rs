@@ -3,6 +3,7 @@ use std::error::Error;
 use serde_json::{json, Value};
 use chrono::prelude::*;
 use chrono::Duration;
+use std::fmt;
 
 pub struct AuthRequestConfig {
     pub client_id: String,
@@ -59,9 +60,25 @@ impl AuthRequest<'_> {
             .await?.text_with_charset("utf-8").await?;
         let v: Value = serde_json::from_str(&res)?;
 
-        self.token = v["access_token"].to_string();
+        self.token = match v["access_token"].as_str() {
+            Some(val) => Ok(String::from(val)),
+            None => Err(AuthRequestError{description: String::from("error extracting access token")})
+        }?;
         self.expiration = Utc::now() + Duration::seconds(v["expires_in"].as_i64().unwrap_or(0) - 10);
 
         Ok(())
+    }
+}
+
+#[derive(Debug)]
+struct AuthRequestError {
+    description: String
+}
+
+impl Error for AuthRequestError {}
+
+impl fmt::Display for AuthRequestError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "AuthRequestError: {}", self.description)
     }
 }
