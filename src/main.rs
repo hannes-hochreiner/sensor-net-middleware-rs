@@ -46,30 +46,47 @@ async fn main() -> Result<(), Box<dyn Error>> {
         endpoint: env::var("SENSOR_NET_ENDPOINT")?
     };
     let mut auth = AuthRequest::new(&auth_config);
+    let mut buffer = String::new();
 
     loop {
         if let Some(res) = stream.next().await {
             info!("received message");
-            debug!("res: {}", res);
+            debug!("buffer: {}", buffer);
+            debug!("received message: {}", res);
 
-            let msg = match process_message(&res, &key) {
-                Ok(message) => {
-                    info!("message processed successfully");
-                    message
-                },
-                Err(err) => {
-                    error!("error processing message: {}", err);
-                    continue
-                }
+            buffer.push_str(&res);
+
+            debug!("buffer + message: {}", buffer);
+
+            let mut parts: Vec<String> = buffer.split('\n').map(|elem| String::from(elem)).collect();
+
+            debug!("parts: {:?}", parts);
+
+            buffer = match parts.pop() {
+                Some(elem) => elem,
+                None => String::new()
             };
 
-            match auth.send_message(msg).await {
-                Ok(()) => info!("message sent successfully"),
-                Err(err) => {
-                    error!("error sending message: {}", err);
-                    continue
-                }
-            };
+            for message in parts {
+                let msg = match process_message(&message, &key) {
+                    Ok(message) => {
+                        info!("message processed successfully");
+                        message
+                    },
+                    Err(err) => {
+                        error!("error processing message: {}", err);
+                        continue
+                    }
+                };
+    
+                match auth.send_message(msg).await {
+                    Ok(()) => info!("message sent successfully"),
+                    Err(err) => {
+                        error!("error sending message: {}", err);
+                        continue
+                    }
+                };
+            }
         }
     }
 }
