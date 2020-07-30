@@ -4,6 +4,7 @@ use std::fmt;
 use std::convert::TryInto;
 use std::ops::Range;
 use serde::Serialize;
+use chrono::{Utc, SecondsFormat};
 
 #[derive(Serialize, Debug, Clone)]
 struct ParameterValue {
@@ -20,12 +21,18 @@ struct Measurement {
 
 #[derive(Serialize, Debug)]
 #[allow(non_snake_case)]
-pub struct SensorMessage {
-    r#type: String,
-    rssi: String,
+struct Message {
     mcuId: String,
     index: u32,
     measurements: Vec<Measurement>
+}
+
+#[derive(Serialize, Debug)]
+pub struct SensorMessage {
+    r#type: String,
+    rssi: String,
+    timestamp: String,
+    message: Message
 }
 
 impl SensorMessage {
@@ -37,20 +44,23 @@ impl SensorMessage {
         Ok(SensorMessage {
             r#type: String::from("rfm"),
             rssi: rssi.clone(),
-            mcuId: format!("{:08x}-{:08x}-{:08x}",
-                u32::from_le_bytes(get_data_slice(data, 12..16)?.try_into()?),
-                u32::from_le_bytes(get_data_slice(data, 8..12)?.try_into()?),
-                u32::from_le_bytes(get_data_slice(data, 4..8)?.try_into()?),
-            ),
-            index: u32::from_le_bytes(get_data_slice(data, 16..20)?.try_into()?),
-            measurements: vec![Measurement {
-                sensorId: format!("{:04x}", u16::from_le_bytes(get_data_slice(data, 2..4)?.try_into()?)),
-                parameters: [
-                    (String::from("temperature"), ParameterValue {value: f32::from_le_bytes(get_data_slice(data, 20..24)?.try_into()?), unit: String::from("°C")}),
-                    (String::from("relativeHumidity"), ParameterValue {value: f32::from_le_bytes(get_data_slice(data, 24..28)?.try_into()?), unit: String::from("%")}),
-                    (String::from("pressure"), ParameterValue {value: f32::from_le_bytes(get_data_slice(data, 28..32)?.try_into()?), unit: String::from("mbar")})
-                ].iter().cloned().collect()
-            }]
+            timestamp: Utc::now().to_rfc3339_opts(SecondsFormat::Millis, true),
+            message: Message {
+                mcuId: format!("{:08x}-{:08x}-{:08x}",
+                    u32::from_le_bytes(get_data_slice(data, 12..16)?.try_into()?),
+                    u32::from_le_bytes(get_data_slice(data, 8..12)?.try_into()?),
+                    u32::from_le_bytes(get_data_slice(data, 4..8)?.try_into()?),
+                ),
+                index: u32::from_le_bytes(get_data_slice(data, 16..20)?.try_into()?),
+                measurements: vec![Measurement {
+                    sensorId: format!("{:04x}", u16::from_le_bytes(get_data_slice(data, 2..4)?.try_into()?)),
+                    parameters: [
+                        (String::from("temperature"), ParameterValue {value: f32::from_le_bytes(get_data_slice(data, 20..24)?.try_into()?), unit: String::from("°C")}),
+                        (String::from("relativeHumidity"), ParameterValue {value: f32::from_le_bytes(get_data_slice(data, 24..28)?.try_into()?), unit: String::from("%")}),
+                        (String::from("pressure"), ParameterValue {value: f32::from_le_bytes(get_data_slice(data, 28..32)?.try_into()?), unit: String::from("mbar")})
+                    ].iter().cloned().collect()
+                }]
+            }
         })
     }
 }
