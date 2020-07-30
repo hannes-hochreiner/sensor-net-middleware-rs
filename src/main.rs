@@ -1,6 +1,7 @@
 extern crate libc;
 mod serial_stream;
 mod sensor_message;
+mod auth_request;
 #[macro_use] extern crate log;
 
 use std::error::Error;
@@ -13,6 +14,7 @@ use aes::Aes128;
 use block_modes::{BlockMode, Ecb, block_padding::NoPadding};
 use sensor_message::SensorMessage;
 use std::env;
+use auth_request::{AuthRequestConfig, AuthRequest};
 
 type Aes128Ecb = Ecb<Aes128, NoPadding>;
 
@@ -35,26 +37,52 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     info!("initialized stream...");
 
+    let auth_config = AuthRequestConfig {
+        client_id: env::var("AUTH0_CLIENT_ID")?,
+        client_secret: env::var("AUTH0_CLIENT_SECRET")?,
+        audience: env::var("AUTH0_CLIENT_AUDIENCE")?,
+        tenant: env::var("AUTH0_TENANT")?,
+        region: env::var("AUTH0_REGION")?,
+        endpoint: env::var("SENSOR_NET_ENDPOINT")?
+    };
+    let mut auth = AuthRequest::new(&auth_config);
+
     loop {
         if let Some(res) = stream.next().await {
             info!("received message");
             debug!("res: {}", res);
-            match process_message(&res, &key) {
-                Ok(()) => info!("message processed successfully"),
-                Err(err) => error!("error processing message: {}", err)
-            }
+
+            let msg = match process_message(&res, &key) {
+                Ok(message) => {
+                    info!("message processed successfully");
+                    message
+                },
+                Err(err) => {
+                    error!("error processing message: {}", err);
+                    continue
+                }
+            };
+
+            match auth.send_message(msg).await {
+                Ok(()) => info!("message sent successfully"),
+                Err(err) => {
+                    error!("error sending message: {}", err);
+                    continue
+                }
+            };
         }
     }
 }
 
-fn process_message(msg: &String, key: &Vec<u8>) -> Result<(), Box<dyn Error>> {
+fn process_message(msg: &String, key: &Vec<u8>) -> Result<String, Box<dyn Error>> {
     let msg: Message = serde_json::from_str(msg)?;
     debug!("message: {:?}", msg);
     let enc_data = Vec::from_hex(&msg.data)?;
     let cipher = Aes128Ecb::new_var(&key, Default::default())?;
     let plain_data = cipher.decrypt_vec(&enc_data)?;
     let sens_msg = SensorMessage::parse(&msg.rssi, &plain_data)?;
-    debug!("{}", serde_json::to_string(&sens_msg)?);
+    let string_result = serde_json::to_string(&sens_msg)?;
+    debug!("{}", string_result);
 
-    Ok(())
+    Ok(string_result)
 }

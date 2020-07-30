@@ -17,3 +17,6 @@ aes = "0.4"
 block-modes = "0.5"
 env_logger = "0.7"
 log = "0.4"
+reqwest = "0.10"
+chrono = "0.4"
+

@@ -17,30 +17,33 @@ Running
 
 The program gets its configuration from the following environment variables.
 
-+-----------------------+-------------------------------------------------------+
-| Variable name         | Description                                           |
-+=======================+=======================================================+
-| SENSOR_NET_DEVICE     | The device name (e.g. "/dev/ttyUSB0")                 |
-+-----------------------+-------------------------------------------------------+
-| SENSOR_NET_KEY        | The sensor net encryption key as a hex encoded string |
-+-----------------------+-------------------------------------------------------+
-| AUTH0_TENANT          | Tenant                                                |
-+-----------------------+-------------------------------------------------------+
-| AUTH0_REGION          | Region (e.g. "eu")                                    |
-+-----------------------+-------------------------------------------------------+
-| AUTH0_CLIENT_ID       | Id of the client                                      |
-+-----------------------+-------------------------------------------------------+
-| AUTH0_CLIENT_SECRET   | Secret token of the client                            |
-+-----------------------+-------------------------------------------------------+
-| AUTH0_CLIENT_AUDIENCE | Audience                                              |
-+-----------------------+-------------------------------------------------------+
++-----------------------+--------------------------------------------------------------------------+
+| Variable name         | Description                                                              |
++=======================+==========================================================================+
+| SENSOR_NET_DEVICE     | The device name (e.g. "/dev/ttyUSB0")                                    |
++-----------------------+--------------------------------------------------------------------------+
+| SENSOR_NET_KEY        | The sensor net encryption key as a hex encoded string                    |
++-----------------------+--------------------------------------------------------------------------+
+| AUTH0_TENANT          | Tenant                                                                   |
++-----------------------+--------------------------------------------------------------------------+
+| AUTH0_REGION          | Region (e.g. "eu")                                                       |
++-----------------------+--------------------------------------------------------------------------+
+| AUTH0_CLIENT_ID       | Id of the client                                                         |
++-----------------------+--------------------------------------------------------------------------+
+| AUTH0_CLIENT_SECRET   | Secret token of the client                                               |
++-----------------------+--------------------------------------------------------------------------+
+| AUTH0_CLIENT_AUDIENCE | Audience                                                                 |
++-----------------------+--------------------------------------------------------------------------+
+| SENSOR_NET_ENDPOINT   | URL of the Sensor Net endpoint (e.g. https://yourdomain.org/api/message) |
++-----------------------+--------------------------------------------------------------------------+
 
 .. code-block:: bash
 
   sudo SENSOR_NET_DEVICE=/dev/ttyUSB0 SENSOR_NET_KEY=<key> \
   RUST_LOG=info AUTH0_TENANT=<tenant> AUTH0_REGION=eu \
   AUTH0_CLIENT_ID=<client> AUTH0_CLIENT_SECRET=<secret> \
-  AUTH0_CLIENT_AUDIENCE=<audience> sensor-net-middleware-rs
+  AUTH0_CLIENT_AUDIENCE=<audience> SENSOR_NET_ENDPOINT=<endpoint> \
+  sensor-net-middleware-rs
 
 Flow
 ----
@@ -75,7 +78,7 @@ They are formatted in JSON.
 Output to Backend
 ~~~~~~~~~~~~~~~~~
 
-Messages to the `backend <https://github.com/hannes-hochreiner/sensor-net-back-end>`_ are sent over https as a "PUT" request on the "/message" endpoint.
+Messages to the `backend <https://github.com/hannes-hochreiner/sensor-net-back-end>`_ are sent over https as a "PUT" request on the "/api/message" endpoint.
 The messages must be sent in JSON.
 
 .. code-block:: JSON
