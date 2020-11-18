@@ -1,14 +1,14 @@
 {
   colwidth = 32
-  node_height = 128
+  node_height = 50
 
-  0-1: Type (2) [rotate = 270]
-  2-3: Sensor ID [rotate = 270]
-  4-7: MCU ID 1 [rotate = 270]
-  8-11: MCU ID 2 [rotate = 270]
-  12-15: MCU ID 3 [rotate = 270]
-  16-19: Index [rotate = 270]
-  20-23: Temperature [rotate = 270]
-  24-27: Relative Humidity [rotate = 270]
-  28-31: Pressure [rotate = 270]
+  0-15: Type (2)
+  16-31: Sensor ID
+  32-63: MCU ID 1
+  64-95: MCU ID 2
+  96-127: MCU ID 3
+  128-159: Index
+  160-191: Temperature
+  192-223: Relative Humidity
+  224-255: Pressure
 }
