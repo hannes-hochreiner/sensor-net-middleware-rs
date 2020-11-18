@@ -75,6 +75,12 @@ They are formatted in JSON.
     "data": "<hex encoded, AES encrypted data>"
   }
 
+Message data
+~~~~~~~~~~~~
+
+.. image:: docs/bld/rfm_packet.svg
+  caption: type 2 message (rfm)
+
 Output to Backend
 ~~~~~~~~~~~~~~~~~
 
