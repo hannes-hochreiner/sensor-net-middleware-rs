@@ -1,6 +1,6 @@
 {
   colwidth = 32
-  node_height = 72
+  node_height = 128
 
   0-1: Type (2) [rotate = 270]
   2-3: Sensor ID [rotate = 270]
