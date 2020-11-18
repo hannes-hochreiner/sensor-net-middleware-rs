@@ -102,3 +102,12 @@ The messages must be sent in JSON.
       ]
     }
   }
+
+Building
+--------
+
+On Fedora 33, it may be necessary to install the Perl modules "FindBin" and "File::Compare" as well as the OpenSSL development files.
+
+.. code-block:: bash
+
+  sudo dnf install perl-FindBin perl-File-Compare openssl-devel -y
