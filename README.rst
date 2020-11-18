@@ -83,6 +83,11 @@ Type 2 message (rfm)
 
 .. image:: docs/bld/rfm_packet.svg
 
+Type 3 message (ble651)
+....................
+
+.. image:: docs/bld/type_3_packet.svg
+
 Output to Backend
 ~~~~~~~~~~~~~~~~~
 

@@ -1,0 +1,16 @@
+{
+  colwidth = 32
+  node_height = 50
+
+  0-15: Type (3)
+  16-79: MCU ID
+  80-111: MCU model
+  112-143: Index
+  144-159: Sensor ID
+  160-175: Acceleration x
+  176-191: Acceleration y
+  192-207: Acceleration z
+  208-223: Magnetic Field x
+  224-239: Magnetic Field y
+  240-255: Magnetic Field z
+}
