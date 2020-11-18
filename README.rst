@@ -78,8 +78,10 @@ They are formatted in JSON.
 Message data
 ~~~~~~~~~~~~
 
+Type 2 message (rfm)
+....................
+
 .. image:: docs/bld/rfm_packet.svg
-  caption: type 2 message (rfm)
 
 Output to Backend
 ~~~~~~~~~~~~~~~~~
