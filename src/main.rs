@@ -107,10 +107,10 @@ fn process_message(msg: &String, key: &Vec<u8>) -> Result<String, Box<dyn Error>
                 rssi: String::from("n/a"),
                 timestamp: Utc::now().to_rfc3339_opts(SecondsFormat::Millis, true),
                 message: Message {
-                    mcuId: msg["message"]["mcuId"].to_string(),
+                    mcuId: msg["message"]["mcuId"].to_str().unwrap(),
                     index: msg["message"]["index"].as_u64().unwrap() as u32,
                     measurements: vec![Measurement {
-                        sensorId: msg["message"]["sensorId"].to_string(),
+                        sensorId: msg["message"]["sensorId"].to_str().unwrap(),
                         parameters: [
                             (String::from("temperature"), ParameterValue {value: msg["message"]["temperature"].as_f64().unwrap() as f32, unit: String::from("°C")}),
                             (String::from("relativeHumidity"), ParameterValue {value: msg["message"]["humidity"].as_f64().unwrap() as f32, unit: String::from("%")}),
