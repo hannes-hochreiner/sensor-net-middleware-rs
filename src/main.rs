@@ -6,24 +6,19 @@ mod auth_request;
 
 use std::error::Error;
 use std::result::Result;
+use std::fmt;
 use serial_stream::SerialStream;
 use futures::stream::StreamExt;
-use serde::{Deserialize};
+use serde_json::{Value};
 use hex::FromHex;
 use aes::Aes128;
 use block_modes::{BlockMode, Ecb, block_padding::NoPadding};
-use sensor_message::SensorMessage;
+use sensor_message::{SensorMessage, Message, Measurement, ParameterValue};
 use std::env;
 use auth_request::{AuthRequestConfig, AuthRequest};
+use chrono::{Utc, SecondsFormat};
 
 type Aes128Ecb = Ecb<Aes128, NoPadding>;
-
-#[derive(Deserialize, Debug)]
-struct Message {
-    r#type: String,
-    rssi: String,
-    data: String,
-}
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
@@ -92,14 +87,58 @@ async fn main() -> Result<(), Box<dyn Error>> {
 }
 
 fn process_message(msg: &String, key: &Vec<u8>) -> Result<String, Box<dyn Error>> {
-    let msg: Message = serde_json::from_str(msg)?;
+    let msg: Value = serde_json::from_str(msg)?;
     debug!("message: {:?}", msg);
-    let enc_data = Vec::from_hex(&msg.data)?;
-    let cipher = Aes128Ecb::new_var(&key, Default::default())?;
-    let plain_data = cipher.decrypt_vec(&enc_data)?;
-    let sens_msg = SensorMessage::parse(&msg.rssi, &plain_data)?;
+
+    let sens_msg;
+
+    match msg["type"].as_str() {
+        Some("rfm") => {
+            let enc_data = Vec::from_hex(&msg["data"].as_str().unwrap())?;
+            let cipher = Aes128Ecb::new_var(&key, Default::default())?;
+            sens_msg = SensorMessage::parse(&String::from(msg["rssi"].as_str().unwrap()), &cipher.decrypt_vec(&enc_data)?)?;
+        },
+        Some("gateway-bl651-radio") => {
+            sens_msg = SensorMessage::parse(&format!("{}", msg["rssi"].as_i64().unwrap()), &Vec::from_hex(&msg["data"].as_str().unwrap())?)?;
+        },
+        Some("gateway-bl651-sensor") => {
+            sens_msg = SensorMessage {
+                r#type: String::from("rfm"),
+                rssi: String::from("n/a"),
+                timestamp: Utc::now().to_rfc3339_opts(SecondsFormat::Millis, true),
+                message: Message {
+                    mcuId: msg["message"]["mcuId"].to_string(),
+                    index: msg["message"]["index"].as_u64().unwrap() as u32,
+                    measurements: vec![Measurement {
+                        sensorId: msg["message"]["sensorId"].to_string(),
+                        parameters: [
+                            (String::from("temperature"), ParameterValue {value: msg["message"]["temperature"].as_f64().unwrap() as f32, unit: String::from("°C")}),
+                            (String::from("relativeHumidity"), ParameterValue {value: msg["message"]["humidity"].as_f64().unwrap() as f32, unit: String::from("%")}),
+                        ].iter().cloned().collect()
+                    }]
+                }
+            };
+        },
+        _ => {
+            return Err(Box::new(MiddlewareError{description: String::from("unknown message type")}))
+        }
+    }
+
     let string_result = serde_json::to_string(&sens_msg)?;
     debug!("{}", string_result);
 
     Ok(string_result)
+}
+
+#[derive(Debug)]
+struct MiddlewareError {
+    description: String
+}
+
+impl Error for MiddlewareError {}
+
+impl fmt::Display for MiddlewareError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "MiddlewareError: {}", self.description)
+    }
 }
