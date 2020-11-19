@@ -104,7 +104,7 @@ fn process_message(msg: &String, key: &Vec<u8>) -> Result<String, Box<dyn Error>
         Some("gateway-bl651-sensor") => {
             sens_msg = SensorMessage {
                 r#type: String::from("rfm"),
-                rssi: String::from("n/a"),
+                rssi: String::from("0"),
                 timestamp: Utc::now().to_rfc3339_opts(SecondsFormat::Millis, true),
                 message: Message {
                     mcuId: String::from(msg["message"]["mcuId"].as_str().unwrap()),
