@@ -111,11 +111,11 @@ impl fmt::Display for SensorMessageError {
     }
 }
 
-use hex::FromHex;
-use serde_json::{Value};
-
 #[test]
 fn parse_type_3() {
+    use hex::FromHex;
+    use serde_json::{Value};
+    
     let s = "{\"type\": \"gateway-bl651-radio\",\"rssi\": -65,\"data\": \"03008477642fb9e155f6102805002e01000001ab60fd404050fce8ffb9fd3a00\"}";
     let msg: Value = serde_json::from_str(&String::from(s)).unwrap();
     let data = &Vec::from_hex(&msg["data"].as_str().unwrap()).unwrap();
