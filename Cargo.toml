@@ -1,6 +1,6 @@
 [package]
 name = "sensor-net-middleware-rs"
-version = "1.0.8"
+version = "1.0.9"
 authors = ["Hannes Hochreiner <hannes@hochreiner.net>"]
 edition = "2018"
 
