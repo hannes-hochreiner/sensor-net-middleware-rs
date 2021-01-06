@@ -88,6 +88,11 @@ Type 3 message (ble651)
 
 .. image:: docs/bld/type_3_packet.svg
 
+Type 4 message (ble651)
+....................
+
+.. image:: docs/bld/type_4_packet.svg
+
 Output to Backend
 ~~~~~~~~~~~~~~~~~
 
@@ -124,3 +129,25 @@ On Fedora 33, it may be necessary to install the Perl modules "FindBin" and "Fil
 .. code-block:: bash
 
   sudo dnf install perl-FindBin perl-File-Compare openssl-devel -y
+
+Installation
+------------
+
+The download URL to the latests release can be obtained from the GitHub GraphQL API using the following query.
+
+.. code-block:: graphql
+
+  query {
+    repository(owner:"hannes-hochreiner", name:"sensor-net-middleware-rs") {
+      releases(last:1) {
+        nodes {
+          releaseAssets(first:1) {
+            nodes {
+              name
+              downloadUrl
+            }
+          }
+        }
+      }
+    }
+  }

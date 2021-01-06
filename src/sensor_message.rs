@@ -91,6 +91,27 @@ impl SensorMessage {
                     }
                 })
             },
+            3 => {
+                Ok(SensorMessage {
+                    r#type: String::from("rfm"),
+                    rssi: rssi.clone(),
+                    timestamp: Utc::now().to_rfc3339_opts(SecondsFormat::Millis, true),
+                    message: Message {
+                        mcuId: format!("{:0>8x}-{:0>16x}",
+                            u32::from_le_bytes(data[10..14].try_into()?),
+                            u64::from_le_bytes(data[2..10].try_into()?),
+                        ),
+                        index: u32::from_le_bytes(data[14..18].try_into()?),
+                        measurements: vec![Measurement {
+                            sensorId: format!("{:04x}", u16::from_le_bytes(data[18..20].try_into()?)),
+                            parameters: [
+                                (String::from("temperature"), ParameterValue {value: f32::from_le_bytes(data[20..24].try_into()?), unit: String::from("°C")}),
+                                (String::from("relativeHumidity"), ParameterValue {value: f32::from_le_bytes(data[24..28].try_into()?), unit: String::from("%")}),
+                            ].iter().cloned().collect()
+                        }]
+                    }
+                })
+            },
             _ => {
                 Err(Box::new(SensorMessageError { description: String::from("unsupported message type")}))
             }

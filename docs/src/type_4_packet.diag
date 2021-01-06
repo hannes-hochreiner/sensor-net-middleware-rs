@@ -1,0 +1,12 @@
+{
+  colwidth = 32
+  node_height = 50
+
+  0-15: Type (4)
+  16-79: MCU ID
+  80-111: MCU model
+  112-143: Index
+  144-159: Sensor ID
+  160-191: Temperature
+  192-223: Humidity
+}
