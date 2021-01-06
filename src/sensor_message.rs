@@ -91,7 +91,7 @@ impl SensorMessage {
                     }
                 })
             },
-            3 => {
+            4 => {
                 Ok(SensorMessage {
                     r#type: String::from("rfm"),
                     rssi: rssi.clone(),
