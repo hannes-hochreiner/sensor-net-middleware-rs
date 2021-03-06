@@ -93,6 +93,11 @@ Type 4 message (ble651)
 
 .. image:: docs/bld/type_4_packet.svg
 
+Type 5 message (ble651)
+.......................
+
+.. image:: docs/bld/type_5_packet.svg
+
 Output to Backend
 ~~~~~~~~~~~~~~~~~
 

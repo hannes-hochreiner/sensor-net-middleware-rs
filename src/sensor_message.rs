@@ -112,6 +112,42 @@ impl SensorMessage {
                     }
                 })
             },
+            5 => {
+                Ok(SensorMessage {
+                    r#type: String::from("rfm"),
+                    rssi: rssi.clone(),
+                    timestamp: Utc::now().to_rfc3339_opts(SecondsFormat::Millis, true),
+                    message: Message {
+                        mcuId: format!("{:0>8x}-{:0>16x}",
+                            u32::from_le_bytes(data[10..14].try_into()?),
+                            u64::from_le_bytes(data[2..10].try_into()?),
+                        ),
+                        index: u32::from_le_bytes(data[14..18].try_into()?),
+                        measurements: vec![Measurement {
+                            sensorId: format!("{:04x}", u16::from_le_bytes(data[18..20].try_into()?)),
+                            parameters: [
+                                (String::from("acceleration_x"), ParameterValue {value: i16::from_le_bytes(data[20..22].try_into()?) as f32, unit: String::from("au")}),
+                                (String::from("acceleration_y"), ParameterValue {value: i16::from_le_bytes(data[22..24].try_into()?) as f32, unit: String::from("au")}),
+                                (String::from("acceleration_z"), ParameterValue {value: i16::from_le_bytes(data[24..26].try_into()?) as f32, unit: String::from("au")}),
+                                (String::from("magneticField_x"), ParameterValue {value: i16::from_le_bytes(data[26..28].try_into()?) as f32, unit: String::from("au")}),
+                                (String::from("magneticField_y"), ParameterValue {value: i16::from_le_bytes(data[28..30].try_into()?) as f32, unit: String::from("au")}),
+                                (String::from("magneticField_z"), ParameterValue {value: i16::from_le_bytes(data[30..32].try_into()?) as f32, unit: String::from("au")}),
+                            ].iter().cloned().collect()
+                        }, Measurement {
+                            sensorId: format!("{:04x}", u16::from_le_bytes(data[32..34].try_into()?)),
+                            parameters: [
+                                (String::from("temperature"), ParameterValue {value: f32::from_le_bytes(data[34..38].try_into()?), unit: String::from("°C")}),
+                                (String::from("relativeHumidity"), ParameterValue {value: f32::from_le_bytes(data[38..42].try_into()?), unit: String::from("%")}),
+                            ].iter().cloned().collect()
+                        }, Measurement {
+                            sensorId: format!("{:04x}", 0u16),
+                            parameters: [
+                                (String::from("batteryVoltage"), ParameterValue {value: f32::from_le_bytes(data[42..46].try_into()?), unit: String::from("V")}),
+                            ].iter().cloned().collect()
+                        }]
+                    }
+                })
+            },
             _ => {
                 Err(Box::new(SensorMessageError { description: String::from("unsupported message type")}))
             }
