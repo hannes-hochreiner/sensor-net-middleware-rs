@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg viewBox="0 0 896 720" xmlns="http://www.w3.org/2000/svg" xmlns:inkspace="http://www.inkscape.org/namespaces/inkscape" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs id="defs_block">
+    <filter height="1.504" id="filter_blur" inkspace:collect="always" width="1.1575" x="-0.07875" y="-0.252">
+      <feGaussianBlur id="feGaussianBlur3780" inkspace:collect="always" stdDeviation="4.2" />
+    </filter>
+  </defs>
+  <title>blockdiag</title>
+  <desc>{
+  colwidth = 32
+  node_height = 50
+
+  0-15: Type (5)
+  16-79: MCU ID
+  80-111: MCU model
+  112-143: Index
+  144-159: Sensor ID
+  160-175: Acceleration x
+  176-191: Acceleration y
+  192-207: Acceleration z
+  208-223: Magnetic Field x
+  224-239: Magnetic Field y
+  240-255: Magnetic Field z
+  256-271: Sensor ID
+  272-303: Temperature
+  304-335: Humidity
+  336-367: Battery Voltage
+}
+</desc>
+  <path d="M 64 48 L 64 80" fill="none" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="6" x="64.0" y="42">0</text>
+  <path d="M 88 64 L 88 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 112 64 L 112 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 136 64 L 136 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 160 64 L 160 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 184 64 L 184 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 208 64 L 208 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 232 64 L 232 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 256 48 L 256 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 280 64 L 280 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 304 64 L 304 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 328 64 L 328 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 352 64 L 352 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 376 64 L 376 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 400 64 L 400 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 424 64 L 424 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 48 L 448 80" fill="none" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="12" x="448.0" y="42">16</text>
+  <path d="M 472 64 L 472 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 496 64 L 496 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 520 64 L 520 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 544 64 L 544 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 568 64 L 568 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 592 64 L 592 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 616 64 L 616 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 640 48 L 640 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 664 64 L 664 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 688 64 L 688 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 712 64 L 712 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 736 64 L 736 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 760 64 L 760 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 784 64 L 784 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 808 64 L 808 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 832 48 L 832 80" fill="none" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="12" x="832.0" y="42">32</text>
+  <rect fill="rgb(255,255,255)" height="50" stroke="rgb(255,255,255)" width="384" x="64" y="80" />
+  <path d="M 64 80 L 448 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 80 L 448 130" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 130 L 64 130" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 64 130 L 64 80" fill="none" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="48" x="256.0" y="111">Type (5)</text>
+  <rect fill="rgb(255,255,255)" height="50" stroke="rgb(255,255,255)" width="384" x="64" y="180" />
+  <path d="M 64 180 L 448 180" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 180 L 448 230" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 230 L 64 230" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 64 230 L 64 180" fill="none" stroke="rgb(0,0,0)" stroke-dasharray="4" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="36" x="256.0" y="211">MCU ID</text>
+  <rect fill="rgb(255,255,255)" height="50" stroke="rgb(255,255,255)" width="384" x="64" y="230" />
+  <path d="M 64 230 L 448 230" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 230 L 448 280" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 280 L 64 280" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 64 280 L 64 230" fill="none" stroke="rgb(0,0,0)" stroke-dasharray="4" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="54" x="256.0" y="261">MCU model</text>
+  <rect fill="rgb(255,255,255)" height="50" stroke="rgb(255,255,255)" width="384" x="64" y="280" />
+  <path d="M 64 280 L 448 280" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 280 L 448 330" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 330 L 64 330" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 64 330 L 64 280" fill="none" stroke="rgb(0,0,0)" stroke-dasharray="4" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="30" x="256.0" y="311">Index</text>
+  <rect fill="rgb(255,255,255)" height="50" stroke="rgb(255,255,255)" width="384" x="448" y="280" />
+  <path d="M 448 280 L 832 280" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 832 280 L 832 330" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 832 330 L 448 330" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 330 L 448 280" fill="none" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="54" x="640.0" y="311">Sensor ID</text>
+  <rect fill="rgb(255,255,255)" height="50" stroke="rgb(255,255,255)" width="384" x="64" y="330" />
+  <path d="M 64 330 L 448 330" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 330 L 448 380" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 380 L 64 380" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 64 380 L 64 330" fill="none" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="84" x="256.0" y="361">Acceleration x</text>
+  <rect fill="rgb(255,255,255)" height="50" stroke="rgb(255,255,255)" width="384" x="448" y="330" />
+  <path d="M 448 330 L 832 330" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 832 330 L 832 380" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 832 380 L 448 380" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 380 L 448 330" fill="none" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="84" x="640.0" y="361">Acceleration y</text>
+  <rect fill="rgb(255,255,255)" height="50" stroke="rgb(255,255,255)" width="384" x="64" y="380" />
+  <path d="M 64 380 L 448 380" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 380 L 448 430" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 430 L 64 430" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 64 430 L 64 380" fill="none" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="84" x="256.0" y="411">Acceleration z</text>
+  <rect fill="rgb(255,255,255)" height="50" stroke="rgb(255,255,255)" width="384" x="448" y="380" />
+  <path d="M 448 380 L 832 380" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 832 380 L 832 430" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 832 430 L 448 430" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 430 L 448 380" fill="none" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="96" x="640.0" y="411">Magnetic Field x</text>
+  <rect fill="rgb(255,255,255)" height="50" stroke="rgb(255,255,255)" width="384" x="64" y="430" />
+  <path d="M 64 430 L 448 430" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 430 L 448 480" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 480 L 64 480" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 64 480 L 64 430" fill="none" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="96" x="256.0" y="461">Magnetic Field y</text>
+  <rect fill="rgb(255,255,255)" height="50" stroke="rgb(255,255,255)" width="384" x="448" y="430" />
+  <path d="M 448 430 L 832 430" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 832 430 L 832 480" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 832 480 L 448 480" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 480 L 448 430" fill="none" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="96" x="640.0" y="461">Magnetic Field z</text>
+  <rect fill="rgb(255,255,255)" height="50" stroke="rgb(255,255,255)" width="384" x="64" y="480" />
+  <path d="M 64 480 L 448 480" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 480 L 448 530" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 530 L 64 530" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 64 530 L 64 480" fill="none" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="54" x="256.0" y="511">Sensor ID</text>
+  <rect fill="rgb(255,255,255)" height="50" stroke="rgb(255,255,255)" width="384" x="64" y="530" />
+  <path d="M 64 530 L 448 530" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 530 L 448 580" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 580 L 64 580" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 64 580 L 64 530" fill="none" stroke="rgb(0,0,0)" stroke-dasharray="4" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="66" x="256.0" y="561">Temperature</text>
+  <rect fill="rgb(255,255,255)" height="50" stroke="rgb(255,255,255)" width="384" x="64" y="580" />
+  <path d="M 64 580 L 448 580" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 580 L 448 630" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 630 L 64 630" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 64 630 L 64 580" fill="none" stroke="rgb(0,0,0)" stroke-dasharray="4" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="48" x="256.0" y="611">Humidity</text>
+  <rect fill="rgb(255,255,255)" height="50" stroke="rgb(255,255,255)" width="384" x="64" y="630" />
+  <path d="M 64 630 L 448 630" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 630 L 448 680" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 680 L 64 680" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 64 680 L 64 630" fill="none" stroke="rgb(0,0,0)" stroke-dasharray="4" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="90" x="256.0" y="661">Battery Voltage</text>
+  <rect fill="rgb(255,255,255)" height="50" stroke="rgb(255,255,255)" width="384" x="448" y="80" />
+  <path d="M 448 80 L 832 80" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 832 80 L 832 130" fill="none" stroke="rgb(0,0,0)" stroke-dasharray="4" />
+  <path d="M 832 130 L 448 130" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 130 L 448 80" fill="none" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="36" x="640.0" y="111">MCU ID</text>
+  <rect fill="rgb(255,255,255)" height="50" stroke="rgb(255,255,255)" width="768" x="64" y="130" />
+  <path d="M 64 130 L 832 130" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 832 130 L 832 180" fill="none" stroke="rgb(0,0,0)" stroke-dasharray="4" />
+  <path d="M 832 180 L 64 180" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 64 180 L 64 130" fill="none" stroke="rgb(0,0,0)" stroke-dasharray="4" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="36" x="448.0" y="161">MCU ID</text>
+  <rect fill="rgb(255,255,255)" height="50" stroke="rgb(255,255,255)" width="384" x="448" y="180" />
+  <path d="M 448 180 L 832 180" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 832 180 L 832 230" fill="none" stroke="rgb(0,0,0)" stroke-dasharray="4" />
+  <path d="M 832 230 L 448 230" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 230 L 448 180" fill="none" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="54" x="640.0" y="211">MCU model</text>
+  <rect fill="rgb(255,255,255)" height="50" stroke="rgb(255,255,255)" width="384" x="448" y="230" />
+  <path d="M 448 230 L 832 230" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 832 230 L 832 280" fill="none" stroke="rgb(0,0,0)" stroke-dasharray="4" />
+  <path d="M 832 280 L 448 280" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 280 L 448 230" fill="none" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="30" x="640.0" y="261">Index</text>
+  <rect fill="rgb(255,255,255)" height="50" stroke="rgb(255,255,255)" width="384" x="448" y="480" />
+  <path d="M 448 480 L 832 480" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 832 480 L 832 530" fill="none" stroke="rgb(0,0,0)" stroke-dasharray="4" />
+  <path d="M 832 530 L 448 530" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 530 L 448 480" fill="none" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="66" x="640.0" y="511">Temperature</text>
+  <rect fill="rgb(255,255,255)" height="50" stroke="rgb(255,255,255)" width="384" x="448" y="530" />
+  <path d="M 448 530 L 832 530" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 832 530 L 832 580" fill="none" stroke="rgb(0,0,0)" stroke-dasharray="4" />
+  <path d="M 832 580 L 448 580" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 580 L 448 530" fill="none" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="48" x="640.0" y="561">Humidity</text>
+  <rect fill="rgb(255,255,255)" height="50" stroke="rgb(255,255,255)" width="384" x="448" y="580" />
+  <path d="M 448 580 L 832 580" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 832 580 L 832 630" fill="none" stroke="rgb(0,0,0)" stroke-dasharray="4" />
+  <path d="M 832 630 L 448 630" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 448 630 L 448 580" fill="none" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="90" x="640.0" y="611">Battery Voltage</text>
+</svg>
