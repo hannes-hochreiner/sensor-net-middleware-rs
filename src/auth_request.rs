@@ -1,8 +1,8 @@
 extern crate reqwest;
-use std::error::Error;
-use serde_json::{json, Value};
 use chrono::prelude::*;
 use chrono::Duration;
+use serde_json::{json, Value};
+use std::error::Error;
 use std::fmt;
 
 pub struct AuthRequestConfig {
@@ -11,13 +11,13 @@ pub struct AuthRequestConfig {
     pub audience: String,
     pub tenant: String,
     pub region: String,
-    pub endpoint: String
+    pub endpoint: String,
 }
 
 pub struct AuthRequest<'a> {
     config: &'a AuthRequestConfig,
     token: String,
-    expiration: DateTime<Utc>
+    expiration: DateTime<Utc>,
 }
 
 impl AuthRequest<'_> {
@@ -25,7 +25,7 @@ impl AuthRequest<'_> {
         AuthRequest {
             config: config,
             token: String::from(""),
-            expiration: Utc::now() - Duration::seconds(10)
+            expiration: Utc::now() - Duration::seconds(10),
         }
     }
 
@@ -35,16 +35,19 @@ impl AuthRequest<'_> {
         }
 
         let client = reqwest::Client::new();
-        match client.put(&self.config.endpoint)
+        match client
+            .put(&self.config.endpoint)
             .header("Authorization", format!("Bearer {}", self.token))
             .header("Content-Type", "application/json")
             .body(message)
-            .send().await {
-                Ok(_) => Ok(()),
-                Err(error) => Err(Box::new(error))
-            }
+            .send()
+            .await
+        {
+            Ok(_) => Ok(()),
+            Err(error) => Err(Box::new(error)),
+        }
     }
-    
+
     async fn update_token(&mut self) -> Result<(), Box<dyn Error>> {
         let body = json!({
             "client_id": self.config.client_id,
@@ -53,18 +56,27 @@ impl AuthRequest<'_> {
             "grant_type":"client_credentials"
         });
         let client = reqwest::Client::new();
-        let res = client.post(&format!("https://{}.{}.auth0.com/oauth/token", self.config.tenant, self.config.region))
+        let res = client
+            .post(&format!(
+                "https://{}.{}.auth0.com/oauth/token",
+                self.config.tenant, self.config.region
+            ))
             .header("content-type", "application/json")
             .body(body.to_string())
             .send()
-            .await?.text_with_charset("utf-8").await?;
+            .await?
+            .text_with_charset("utf-8")
+            .await?;
         let v: Value = serde_json::from_str(&res)?;
 
         self.token = match v["access_token"].as_str() {
             Some(val) => Ok(String::from(val)),
-            None => Err(AuthRequestError{description: String::from("error extracting access token")})
+            None => Err(AuthRequestError {
+                description: String::from("error extracting access token"),
+            }),
         }?;
-        self.expiration = Utc::now() + Duration::seconds(v["expires_in"].as_i64().unwrap_or(0) - 10);
+        self.expiration =
+            Utc::now() + Duration::seconds(v["expires_in"].as_i64().unwrap_or(0) - 10);
 
         Ok(())
     }
@@ -72,7 +84,7 @@ impl AuthRequest<'_> {
 
 #[derive(Debug)]
 struct AuthRequestError {
-    description: String
+    description: String,
 }
 
 impl Error for AuthRequestError {}

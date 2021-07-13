@@ -1,22 +1,23 @@
 extern crate libc;
-mod serial_stream;
-mod sensor_message;
 mod auth_request;
-#[macro_use] extern crate log;
+mod sensor_message;
+mod serial_stream;
+#[macro_use]
+extern crate log;
 
-use std::error::Error;
-use std::result::Result;
-use std::fmt;
-use serial_stream::SerialStream;
-use futures::stream::StreamExt;
-use serde_json::{Value};
-use hex::FromHex;
 use aes::Aes128;
-use block_modes::{BlockMode, Ecb, block_padding::NoPadding};
-use sensor_message::{SensorMessage, Message, Measurement, ParameterValue};
+use auth_request::{AuthRequest, AuthRequestConfig};
+use block_modes::{block_padding::NoPadding, BlockMode, Ecb};
+use chrono::{SecondsFormat, Utc};
+use futures::stream::StreamExt;
+use hex::FromHex;
+use sensor_message::{Measurement, Message, ParameterValue, SensorMessage};
+use serde_json::Value;
+use serial_stream::SerialStream;
 use std::env;
-use auth_request::{AuthRequestConfig, AuthRequest};
-use chrono::{Utc, SecondsFormat};
+use std::error::Error;
+use std::fmt;
+use std::result::Result;
 
 type Aes128Ecb = Ecb<Aes128, NoPadding>;
 
@@ -38,7 +39,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
         audience: env::var("AUTH0_CLIENT_AUDIENCE")?,
         tenant: env::var("AUTH0_TENANT")?,
         region: env::var("AUTH0_REGION")?,
-        endpoint: env::var("SENSOR_NET_ENDPOINT")?
+        endpoint: env::var("SENSOR_NET_ENDPOINT")?,
     };
     let mut auth = AuthRequest::new(&auth_config);
     let mut buffer = String::new();
@@ -53,13 +54,14 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
             debug!("buffer + message: {}", buffer);
 
-            let mut parts: Vec<String> = buffer.split('\n').map(|elem| String::from(elem)).collect();
+            let mut parts: Vec<String> =
+                buffer.split('\n').map(|elem| String::from(elem)).collect();
 
             debug!("parts: {:?}", parts);
 
             buffer = match parts.pop() {
                 Some(elem) => elem,
-                None => String::new()
+                None => String::new(),
             };
 
             for message in parts {
@@ -67,18 +69,18 @@ async fn main() -> Result<(), Box<dyn Error>> {
                     Ok(message) => {
                         info!("message processed successfully");
                         message
-                    },
+                    }
                     Err(err) => {
                         error!("error processing message: {}", err);
-                        continue
+                        continue;
                     }
                 };
-    
+
                 match auth.send_message(msg).await {
                     Ok(()) => info!("message sent successfully"),
                     Err(err) => {
                         error!("error sending message: {}", err);
-                        continue
+                        continue;
                     }
                 };
             }
@@ -96,11 +98,17 @@ fn process_message(msg: &String, key: &Vec<u8>) -> Result<String, Box<dyn Error>
         Some("rfm") => {
             let enc_data = Vec::from_hex(&msg["data"].as_str().unwrap())?;
             let cipher = Aes128Ecb::new_var(&key, Default::default())?;
-            sens_msg = SensorMessage::parse(&String::from(msg["rssi"].as_str().unwrap()), &cipher.decrypt_vec(&enc_data)?)?;
-        },
+            sens_msg = SensorMessage::parse(
+                &String::from(msg["rssi"].as_str().unwrap()),
+                &cipher.decrypt_vec(&enc_data)?,
+            )?;
+        }
         Some("gateway-bl651-radio") => {
-            sens_msg = SensorMessage::parse(&format!("{}", msg["rssi"].as_i64().unwrap()), &Vec::from_hex(&msg["data"].as_str().unwrap())?)?;
-        },
+            sens_msg = SensorMessage::parse(
+                &format!("{}", msg["rssi"].as_i64().unwrap()),
+                &Vec::from_hex(&msg["data"].as_str().unwrap())?,
+            )?;
+        }
         Some("gateway-bl651-sensor") => {
             sens_msg = SensorMessage {
                 r#type: String::from("rfm"),
@@ -112,15 +120,32 @@ fn process_message(msg: &String, key: &Vec<u8>) -> Result<String, Box<dyn Error>
                     measurements: vec![Measurement {
                         sensorId: String::from(msg["message"]["sensorId"].as_str().unwrap()),
                         parameters: [
-                            (String::from("temperature"), ParameterValue {value: msg["message"]["temperature"].as_f64().unwrap() as f32, unit: String::from("°C")}),
-                            (String::from("relativeHumidity"), ParameterValue {value: msg["message"]["humidity"].as_f64().unwrap() as f32, unit: String::from("%")}),
-                        ].iter().cloned().collect()
-                    }]
-                }
+                            (
+                                String::from("temperature"),
+                                ParameterValue {
+                                    value: msg["message"]["temperature"].as_f64().unwrap() as f32,
+                                    unit: String::from("°C"),
+                                },
+                            ),
+                            (
+                                String::from("relativeHumidity"),
+                                ParameterValue {
+                                    value: msg["message"]["humidity"].as_f64().unwrap() as f32,
+                                    unit: String::from("%"),
+                                },
+                            ),
+                        ]
+                        .iter()
+                        .cloned()
+                        .collect(),
+                    }],
+                },
             };
-        },
+        }
         _ => {
-            return Err(Box::new(MiddlewareError{description: String::from("unknown message type")}))
+            return Err(Box::new(MiddlewareError {
+                description: String::from("unknown message type"),
+            }))
         }
     }
 
@@ -132,7 +157,7 @@ fn process_message(msg: &String, key: &Vec<u8>) -> Result<String, Box<dyn Error>
 
 #[derive(Debug)]
 struct MiddlewareError {
-    description: String
+    description: String,
 }
 
 impl Error for MiddlewareError {}
