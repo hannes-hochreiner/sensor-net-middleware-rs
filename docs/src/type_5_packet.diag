@@ -6,15 +6,16 @@
   16-79: MCU ID
   80-111: MCU model
   112-143: Index
-  144-159: Sensor ID
-  160-175: Acceleration x
-  176-191: Acceleration y
-  192-207: Acceleration z
-  208-223: Magnetic Field x
-  224-239: Magnetic Field y
-  240-255: Magnetic Field z
-  256-271: Sensor ID
-  272-303: Temperature
-  304-335: Humidity
-  336-367: Battery Voltage
+  144-175: Sensor ID
+  176-191: Acceleration x
+  192-207: Acceleration y
+  208-223: Acceleration z
+  224-255: Sensor ID
+  256-271: Magnetic Field x
+  272-287: Magnetic Field y
+  288-303: Magnetic Field z
+  304-335: Sensor ID
+  336-367: Temperature
+  368-399: Humidity
+  400-431: Battery Voltage
 }
