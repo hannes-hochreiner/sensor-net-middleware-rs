@@ -199,7 +199,7 @@ impl SensorMessage {
                         Measurement {
                             sensorId: format!(
                                 "{:04x}",
-                                u16::from_le_bytes(data[18..22].try_into()?)
+                                u32::from_le_bytes(data[18..22].try_into()?)
                             ),
                             parameters: [
                                 (
@@ -231,7 +231,7 @@ impl SensorMessage {
                         Measurement {
                             sensorId: format!(
                                 "{:04x}",
-                                u16::from_le_bytes(data[28..32].try_into()?)
+                                u32::from_le_bytes(data[28..32].try_into()?)
                             ),
                             parameters: [
                                 (
@@ -263,7 +263,7 @@ impl SensorMessage {
                         Measurement {
                             sensorId: format!(
                                 "{:04x}",
-                                u16::from_le_bytes(data[38..42].try_into()?)
+                                u32::from_le_bytes(data[38..42].try_into()?)
                             ),
                             parameters: [
                                 (
@@ -381,4 +381,10 @@ fn parse_type_3() {
             unit: String::from("au")
         }
     );
+}
+
+#[test]
+fn parse_type_5() {
+    let input: Vec<u8> = vec![0x5, 0x0, 0x6, 0xf7, 0x7, 0x55, 0xb7, 0x45, 0xb2, 0x8e, 0x10, 0x28, 0x5, 0x0, 0x0, 0x0, 0x0, 0x0, 0x1, 0x0, 0x0, 0x0, 0x2, 0x0, 0x3, 0x0, 0x4, 0x0, 0x5, 0x0, 0x0, 0x0, 0x6, 0x0, 0x7, 0x0, 0x8, 0x0, 0xa8, 0x34, 0xbb, 0xf, 0xac, 0xe0, 0xd3, 0x41, 0x68, 0x60, 0x64, 0x42, 0x0, 0x40, 0x6c, 0x3f];
+    let _msg = SensorMessage::parse(&String::from("-10"), &input).unwrap();
 }
