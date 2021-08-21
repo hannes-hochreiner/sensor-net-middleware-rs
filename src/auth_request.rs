@@ -2,11 +2,7 @@ extern crate reqwest;
 use chrono::prelude::*;
 use chrono::Duration;
 use serde_json::{json, Value};
-use std::{
-    error::Error,
-    fmt,
-    time::Duration as TimeDuration,
-};
+use std::{error::Error, fmt, time::Duration as TimeDuration};
 use tokio::time::timeout;
 
 const REQUEST_TIMEOUT: TimeDuration = TimeDuration::from_secs(5);
@@ -41,13 +37,16 @@ impl AuthRequest<'_> {
         }
 
         let client = reqwest::Client::new();
-        match timeout(REQUEST_TIMEOUT, client
-            .put(&self.config.endpoint)
-            .header("Authorization", format!("Bearer {}", self.token))
-            .header("Content-Type", "application/json")
-            .body(message)
-            .send()
-            ).await?
+        match timeout(
+            REQUEST_TIMEOUT,
+            client
+                .put(&self.config.endpoint)
+                .header("Authorization", format!("Bearer {}", self.token))
+                .header("Content-Type", "application/json")
+                .body(message)
+                .send(),
+        )
+        .await?
         {
             Ok(_) => Ok(()),
             Err(error) => Err(Box::new(error)),
@@ -62,15 +61,19 @@ impl AuthRequest<'_> {
             "grant_type":"client_credentials"
         });
         let client = reqwest::Client::new();
-        let res = timeout(REQUEST_TIMEOUT,client
-            .post(&format!(
-                "https://{}.{}.auth0.com/oauth/token",
-                self.config.tenant, self.config.region
-            ))
-            .header("content-type", "application/json")
-            .body(body.to_string())
-            .send()
-        ).await??.text_with_charset("utf-8")
+        let res = timeout(
+            REQUEST_TIMEOUT,
+            client
+                .post(&format!(
+                    "https://{}.{}.auth0.com/oauth/token",
+                    self.config.tenant, self.config.region
+                ))
+                .header("content-type", "application/json")
+                .body(body.to_string())
+                .send(),
+        )
+        .await??
+        .text_with_charset("utf-8")
         .await?;
         let v: Value = serde_json::from_str(&res)?;
 
