@@ -1,16 +1,16 @@
 extern crate libc;
-mod auth_request;
 mod sensor_message;
 mod serial_stream;
-#[macro_use]
-extern crate log;
 
-use aes::Aes128;
-use auth_request::{AuthRequest, AuthRequestConfig};
-use block_modes::{block_padding::NoPadding, BlockMode, Ecb};
 use chrono::{SecondsFormat, Utc};
 use futures::stream::StreamExt;
 use hex::FromHex;
+use hyper::client::HttpConnector;
+use hyper::{Body, Method, Request};
+use hyper_tls::native_tls::Identity;
+use hyper_tls::HttpsConnector;
+use log::{debug, error, info};
+use openssl::symm as openssl;
 use sensor_message::{Measurement, Message, ParameterValue, SensorMessage};
 use serde_json::Value;
 use serial_stream::SerialStream;
@@ -18,8 +18,12 @@ use std::env;
 use std::error::Error;
 use std::fmt;
 use std::result::Result;
+use std::time::Duration;
+use tokio::io::AsyncReadExt;
+use tokio::{fs::File, time::timeout};
+use tokio_native_tls::native_tls::TlsConnector;
 
-type Aes128Ecb = Ecb<Aes128, NoPadding>;
+const REQUEST_TIMEOUT: Duration = Duration::from_secs(3);
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
@@ -27,21 +31,33 @@ async fn main() -> Result<(), Box<dyn Error>> {
     info!("starting...");
 
     let device = env::var("SENSOR_NET_DEVICE")?;
+    let endpoint = env::var("SENSOR_NET_ENDPOINT")?;
     let key = Vec::from_hex(env::var("SENSOR_NET_KEY")?)?;
-
+    let cert_filename = env::var("CERTIFICATE_FILENAME")?;
+    let cert_password = env::var("CERTIFICATE_PASSWORD")?;
     let mut stream = SerialStream::new(&device)?;
 
     info!("initialized stream...");
 
-    let auth_config = AuthRequestConfig {
-        client_id: env::var("AUTH0_CLIENT_ID")?,
-        client_secret: env::var("AUTH0_CLIENT_SECRET")?,
-        audience: env::var("AUTH0_CLIENT_AUDIENCE")?,
-        tenant: env::var("AUTH0_TENANT")?,
-        region: env::var("AUTH0_REGION")?,
-        endpoint: env::var("SENSOR_NET_ENDPOINT")?,
+    let cert = {
+        let mut cert_file = File::open(cert_filename).await?;
+        let mut cert_raw = Vec::new();
+        cert_file.read_to_end(&mut cert_raw).await?;
+        cert_raw
     };
-    let mut auth = AuthRequest::new(&auth_config);
+
+    let tls_conn: tokio_native_tls::TlsConnector = TlsConnector::builder()
+        .identity(Identity::from_pkcs12(&cert, &cert_password)?)
+        .build()?
+        .into();
+    let mut ssl = HttpsConnector::<HttpConnector>::from((HttpConnector::new(), tls_conn));
+
+    ssl.https_only(true);
+
+    let client = hyper::Client::builder().build::<_, hyper::Body>(ssl);
+
+    info!("initialized client...");
+
     let mut buffer = String::new();
 
     loop {
@@ -76,10 +92,15 @@ async fn main() -> Result<(), Box<dyn Error>> {
                     }
                 };
 
-                match auth.send_message(msg).await {
-                    Ok(()) => info!("message sent successfully"),
-                    Err(err) => {
-                        error!("error sending message: {}", err);
+                let req = Request::builder()
+                    .method(Method::PUT)
+                    .uri(endpoint.clone())
+                    .header("Content-Type", "application/json")
+                    .body(Body::from(msg))?;
+                match timeout(REQUEST_TIMEOUT, client.request(req)).await? {
+                    Ok(_) => info!("message sent successfully"),
+                    Err(error) => {
+                        error!("error sending message: {}", error);
                         continue;
                     }
                 };
@@ -97,10 +118,9 @@ fn process_message(msg: &String, key: &Vec<u8>) -> Result<String, Box<dyn Error>
     match msg["type"].as_str() {
         Some("rfm") => {
             let enc_data = Vec::from_hex(&msg["data"].as_str().unwrap())?;
-            let cipher = Aes128Ecb::new_var(&key, Default::default())?;
             sens_msg = SensorMessage::parse(
                 &String::from(msg["rssi"].as_str().unwrap()),
-                &cipher.decrypt_vec(&enc_data)?,
+                &openssl::decrypt(openssl::Cipher::aes_128_ecb(), &key, None, &enc_data)?,
             )?;
         }
         Some("gateway-bl651-radio") => {

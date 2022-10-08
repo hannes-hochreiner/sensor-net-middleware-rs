@@ -1,22 +1,24 @@
 [package]
 name = "sensor-net-middleware-rs"
-version = "1.0.12"
+version = "2.0.0"
 authors = ["Hannes Hochreiner <hannes@hochreiner.net>"]
-edition = "2018"
+edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 libc = "0.2"
-openssl = { version = "0.10", features = ["vendored"] }
 futures = "0.3.5"
-tokio = { version = "0.2", features = ["full"] }
+tokio = { version = "1.21", features = ["full"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 hex = "0.4"
-aes = "0.4"
-block-modes = "0.5"
-env_logger = "0.7"
+env_logger = "0.9"
 log = "0.4"
-reqwest = "0.10"
 chrono = "0.4"
+hyper = { version = "0.14", features = ["full"] }
+hyper-tls = "0.5"
+tokio-native-tls = "0.3"
+anyhow = "1.0"
+# dnf install perl
+openssl = { version = "0.10", features = ["vendored"] }
