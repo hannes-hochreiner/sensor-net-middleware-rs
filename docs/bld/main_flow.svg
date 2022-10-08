@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg viewBox="0 0 832 840" xmlns="http://www.w3.org/2000/svg" xmlns:inkspace="http://www.inkscape.org/namespaces/inkscape" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg viewBox="0 0 832 600" xmlns="http://www.w3.org/2000/svg" xmlns:inkspace="http://www.inkscape.org/namespaces/inkscape" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs id="defs_block">
     <filter height="1.504" id="filter_blur" inkspace:collect="always" width="1.1575" x="-0.07875" y="-0.252">
       <feGaussianBlur id="feGaussianBlur3780" inkspace:collect="always" stdDeviation="4.2" />
@@ -31,17 +31,7 @@
     mw_dec [label = "decode\nmeasurement data"];
     mw_parse_d [label = "parse\nmeasurement data"];
     mw_ser [label = "serialize measurement"];
-    mw_check [shape = diamond, label = "valid token\navailable?"];
     mw_send [label = "send\nmeasurement data"];
-    mw_req_token [label = "request\nauthorization token"];
-    mw_rec_token [label = "receive\nauthorization token"];
-  }
-
-  group auth {
-    label = "Auth0";
-    class = "group_sec";
-    auth0_check [label = "check authentication"];
-    auth0_send [label = "send\nauthorization token"];
   }
 
   group backend {
@@ -51,18 +41,12 @@
     be_store [label = "store data in database"];
   }
 
-  gw_recv -&gt; gw_write -&gt; mw_recv -&gt; mw_parse -&gt; mw_dec -&gt; mw_parse_d -&gt; mw_ser -&gt; mw_check;
-  mw_check -&gt; mw_req_token [label = "no"];
-  mw_req_token -&gt; auth0_check -&gt; auth0_send -&gt; mw_rec_token -&gt; mw_send;
-  mw_req_token -&gt; mw_rec_token [style = none];
-  mw_check -&gt; mw_send [label = "yes"];
-  mw_send -&gt; be_rec -&gt; be_store;
+  gw_recv -&gt; gw_write -&gt; mw_recv -&gt; mw_parse -&gt; mw_dec -&gt; mw_parse_d -&gt; mw_ser -&gt; mw_send -&gt; be_rec -&gt; be_store;
 }
 </desc>
   <rect fill="rgb(115,159,173)" height="140" style="filter:url(#filter_blur)" width="144" x="56" y="30" />
-  <rect fill="rgb(196,99,117)" height="700" style="filter:url(#filter_blur)" width="144" x="248" y="110" />
-  <rect fill="rgb(115,159,173)" height="60" style="filter:url(#filter_blur)" width="336" x="440" y="590" />
-  <rect fill="rgb(115,159,173)" height="60" style="filter:url(#filter_blur)" width="336" x="440" y="750" />
+  <rect fill="rgb(196,99,117)" height="460" style="filter:url(#filter_blur)" width="144" x="248" y="110" />
+  <rect fill="rgb(115,159,173)" height="60" style="filter:url(#filter_blur)" width="336" x="440" y="510" />
   <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="67" y="46" />
   <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="67" y="126" />
   <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="259" y="126" />
@@ -70,51 +54,33 @@
   <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="259" y="286" />
   <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="259" y="366" />
   <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="259" y="446" />
-  <polygon fill="rgb(0,0,0)" points="323,518 395,546 323,574 251,546 323,518" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" />
-  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="259" y="606" />
-  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="259" y="686" />
-  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="259" y="766" />
-  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="451" y="606" />
-  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="643" y="606" />
-  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="451" y="766" />
-  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="643" y="766" />
+  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="259" y="526" />
+  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="451" y="526" />
+  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="643" y="526" />
   <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="64" y="40" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="85" x="128.5" y="66">receive message</text>
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="90" x="128.0" y="66">receive message</text>
   <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="64" y="120" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="112" x="128.0" y="146">write message to USB</text>
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="120" x="128.0" y="146">write message to USB</text>
   <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="256" y="120" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="85" x="320.5" y="146">receive message</text>
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="90" x="320.0" y="146">receive message</text>
   <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="256" y="200" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="76" x="320.0" y="226">parse message</text>
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="78" x="320.0" y="226">parse message</text>
   <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="256" y="280" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="39" x="320.5" y="299">decode</text>
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="96" x="320.0" y="311">measurement data</text>
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="36" x="320.0" y="299">decode</text>
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="96" x="320.0" y="312">measurement data</text>
   <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="256" y="360" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="29" x="320.5" y="380">parse</text>
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="30" x="320.0" y="379">parse</text>
   <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="96" x="320.0" y="392">measurement data</text>
   <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="256" y="440" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="116" x="320.0" y="465">serialize measurement</text>
-  <polygon fill="rgb(255,255,255)" points="320,512 392,540 320,568 248,540 320,512" stroke="rgb(0,0,0)" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="57" x="320.5" y="539">valid token</text>
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="52" x="320.0" y="551">available?</text>
-  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="256" y="600" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="40" x="320.0" y="620">request</text>
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="101" x="320.5" y="632">authorization token</text>
-  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="256" y="680" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="38" x="320.0" y="699">receive</text>
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="101" x="320.5" y="711">authorization token</text>
-  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="256" y="760" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="25" x="320.5" y="779">send</text>
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="96" x="320.0" y="791">measurement data</text>
-  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="448" y="600" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="109" x="512.5" y="625">check authentication</text>
-  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="640" y="600" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="25" x="704.5" y="619">send</text>
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="101" x="704.5" y="631">authorization token</text>
-  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="448" y="760" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="63" x="512.5" y="785">receive data</text>
-  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="640" y="760" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="115" x="704.5" y="785">store data in database</text>
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="126" x="320.0" y="466">serialize measurement</text>
+  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="256" y="520" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="24" x="320.0" y="539">send</text>
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="96" x="320.0" y="552">measurement data</text>
+  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="448" y="520" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="72" x="512.0" y="546">receive data</text>
+  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="640" y="520" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="126" x="704.0" y="539">store data in databas</text>
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="6" x="704.0" y="552">e</text>
   <path d="M 128 80 L 128 112" fill="none" stroke="rgb(0,0,0)" />
   <polygon fill="rgb(0,0,0)" points="128,119 124,112 132,112 128,119" stroke="rgb(0,0,0)" />
   <path d="M 192 140 L 248 140" fill="none" stroke="rgb(0,0,0)" />
@@ -127,40 +93,13 @@
   <polygon fill="rgb(0,0,0)" points="320,359 316,352 324,352 320,359" stroke="rgb(0,0,0)" />
   <path d="M 320 400 L 320 432" fill="none" stroke="rgb(0,0,0)" />
   <polygon fill="rgb(0,0,0)" points="320,439 316,432 324,432 320,439" stroke="rgb(0,0,0)" />
-  <path d="M 320 480 L 320 504" fill="none" stroke="rgb(0,0,0)" />
-  <polygon fill="rgb(0,0,0)" points="320,511 316,504 324,504 320,511" stroke="rgb(0,0,0)" />
-  <path d="M 320 568 L 320 592" fill="none" stroke="rgb(0,0,0)" />
-  <polygon fill="rgb(0,0,0)" points="320,599 316,592 324,592 320,599" stroke="rgb(0,0,0)" />
-  <path d="M 320 568 L 320 580" fill="none" stroke="rgb(0,0,0)" />
-  <path d="M 320 580 L 416 580" fill="none" stroke="rgb(0,0,0)" />
-  <path d="M 416 580 L 416 740" fill="none" stroke="rgb(0,0,0)" />
-  <path d="M 320 740 L 416 740" fill="none" stroke="rgb(0,0,0)" />
-  <path d="M 320 740 L 320 752" fill="none" stroke="rgb(0,0,0)" />
-  <polygon fill="rgb(0,0,0)" points="320,759 316,752 324,752 320,759" stroke="rgb(0,0,0)" />
-  <path d="M 384 780 L 440 780" fill="none" stroke="rgb(0,0,0)" />
-  <polygon fill="rgb(0,0,0)" points="447,780 440,776 440,784 447,780" stroke="rgb(0,0,0)" />
-  <path d="M 384 620 L 412.0 620" fill="none" stroke="rgb(0,0,0)" />
-  <path d="M 412.0 620.0 A4.0,4.0 0 0 1 420.0 620.0" fill="none" stroke="rgb(0,0,0)" />
-  <path d="M 420.0 620 L 440 620" fill="none" stroke="rgb(0,0,0)" />
-  <polygon fill="rgb(0,0,0)" points="447,620 440,616 440,624 447,620" stroke="rgb(0,0,0)" />
-  <path d="M 320 720 L 320 752" fill="none" stroke="rgb(0,0,0)" />
-  <polygon fill="rgb(0,0,0)" points="320,759 316,752 324,752 320,759" stroke="rgb(0,0,0)" />
-  <path d="M 576 620 L 632 620" fill="none" stroke="rgb(0,0,0)" />
-  <polygon fill="rgb(0,0,0)" points="639,620 632,616 632,624 639,620" stroke="rgb(0,0,0)" />
-  <path d="M 704 640 L 704 660" fill="none" stroke="rgb(0,0,0)" />
-  <path d="M 320 660 L 412.0 660" fill="none" stroke="rgb(0,0,0)" />
-  <path d="M 412.0 660.0 A4.0,4.0 0 0 1 420.0 660.0" fill="none" stroke="rgb(0,0,0)" />
-  <path d="M 420.0 660 L 704 660" fill="none" stroke="rgb(0,0,0)" />
-  <path d="M 320 660 L 320 672" fill="none" stroke="rgb(0,0,0)" />
-  <polygon fill="rgb(0,0,0)" points="320,679 316,672 324,672 320,679" stroke="rgb(0,0,0)" />
-  <path d="M 576 780 L 632 780" fill="none" stroke="rgb(0,0,0)" />
-  <polygon fill="rgb(0,0,0)" points="639,780 632,776 632,784 639,780" stroke="rgb(0,0,0)" />
-  <rect fill="white" height="14" stroke="rgb(0,0,0)" width="30" x="353" y="583" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="14" x="368.0" y="595">no</text>
-  <rect fill="white" height="17" stroke="rgb(0,0,0)" width="33" x="352" y="742" />
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="17" x="368.5" y="757">yes</text>
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="45" x="128.5" y="37">Gateway</text>
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="61" x="320.5" y="115">Middleware</text>
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="33" x="608.5" y="595">Auth0</text>
-  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="45" x="608.5" y="755">Backend</text>
+  <path d="M 320 480 L 320 512" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="320,519 316,512 324,512 320,519" stroke="rgb(0,0,0)" />
+  <path d="M 384 540 L 440 540" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="447,540 440,536 440,544 447,540" stroke="rgb(0,0,0)" />
+  <path d="M 576 540 L 632 540" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="639,540 632,536 632,544 639,540" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="42" x="128.0" y="36">Gateway</text>
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="60" x="320.0" y="116">Middleware</text>
+  <text fill="rgb(0,0,0)" font-family="sans-serif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="42" x="608.0" y="516">Backend</text>
 </svg>

@@ -19,10 +19,14 @@ The program gets its configuration from the following environment variables.
 | SENSOR_NET_DEVICE | The device name (e.g. "/dev/ttyUSB0") |
 | SENSOR_NET_KEY | The sensor net encryption key as a hex encoded string |
 | SENSOR_NET_ENDPOINT | URL of the Sensor Net endpoint (e.g. https://yourdomain.org/api/message) |
+| CERTIFICATE_FILENAME | filename of the client certificate |
+| CERTIFICATE_PASSWORD | password for the client certificate |
 
 ```bash
   sudo SENSOR_NET_DEVICE=/dev/ttyUSB0 SENSOR_NET_KEY=<key> \
   RUST_LOG=info SENSOR_NET_ENDPOINT=<endpoint> \
+  CERTIFICATE_FILENAME=<filename of the certificate> \
+  CERTIFICATE_PASSWORD= \
   sensor-net-middleware-rs
 ```
 
