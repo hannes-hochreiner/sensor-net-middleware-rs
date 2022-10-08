@@ -3,7 +3,10 @@ name = "sensor-net-middleware-rs"
 version = "2.0.0"
 authors = ["Hannes Hochreiner <hannes@hochreiner.net>"]
 edition = "2021"
-
+description = "middleware for the SensorNet project"
+readme = "README.md"
+repository = "https://github.com/hannes-hochreiner/sensor-net-middleware-rs"
+publish = false
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
