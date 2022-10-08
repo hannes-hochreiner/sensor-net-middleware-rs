@@ -19,11 +19,9 @@ use std::error::Error;
 use std::fmt;
 use std::result::Result;
 use std::time::Duration;
+use tokio::fs::File;
 use tokio::io::AsyncReadExt;
-use tokio::{fs::File, time::timeout};
 use tokio_native_tls::native_tls::TlsConnector;
-
-const REQUEST_TIMEOUT: Duration = Duration::from_secs(3);
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
@@ -46,11 +44,16 @@ async fn main() -> Result<(), Box<dyn Error>> {
         cert_raw
     };
 
-    let tls_conn: tokio_native_tls::TlsConnector = TlsConnector::builder()
+    let tls_connector: tokio_native_tls::TlsConnector = TlsConnector::builder()
         .identity(Identity::from_pkcs12(&cert, &cert_password)?)
         .build()?
         .into();
-    let mut ssl = HttpsConnector::<HttpConnector>::from((HttpConnector::new(), tls_conn));
+    let mut http_connector = HttpConnector::new();
+
+    http_connector.enforce_http(false);
+    http_connector.set_connect_timeout(Some(Duration::from_secs(3)));
+
+    let mut ssl = HttpsConnector::<HttpConnector>::from((http_connector, tls_connector));
 
     ssl.https_only(true);
 
@@ -97,7 +100,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
                     .uri(endpoint.clone())
                     .header("Content-Type", "application/json")
                     .body(Body::from(msg))?;
-                match timeout(REQUEST_TIMEOUT, client.request(req)).await? {
+                match client.request(req).await {
                     Ok(_) => info!("message sent successfully"),
                     Err(error) => {
                         error!("error sending message: {}", error);
