@@ -128,6 +128,3 @@ query {
   }
 }
 ```
-## References
-
-* [StackOverflow post on requests with client certificates](https://stackoverflow.com/questions/44059266/how-to-make-a-request-with-client-certificate-in-rust)
