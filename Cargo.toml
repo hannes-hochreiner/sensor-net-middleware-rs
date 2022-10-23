@@ -1,6 +1,6 @@
 [package]
 name = "sensor-net-middleware-rs"
-version = "2.0.1"
+version = "2.1.0"
 authors = ["Hannes Hochreiner <hannes@hochreiner.net>"]
 edition = "2021"
 description = "middleware for the SensorNet project"
