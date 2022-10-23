@@ -14,7 +14,7 @@ use openssl::symm as openssl;
 use sensor_message::{Measurement, Message, ParameterValue, SensorMessage};
 use serde_json::Value;
 use serial_stream::SerialStream;
-use std::env;
+use std::env::{self, VarError};
 use std::error::Error;
 use std::fmt;
 use std::result::Result;
@@ -31,23 +31,43 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let device = env::var("SENSOR_NET_DEVICE")?;
     let endpoint = env::var("SENSOR_NET_ENDPOINT")?;
     let key = Vec::from_hex(env::var("SENSOR_NET_KEY")?)?;
-    let cert_filename = env::var("CERTIFICATE_FILENAME")?;
-    let cert_password = env::var("CERTIFICATE_PASSWORD")?;
+    let cert_filename = match env::var("CERTIFICATE_FILENAME") {
+        Ok(val) => Ok(Some(val)),
+        Err(VarError::NotPresent) => Ok(None),
+        Err(err) => Err(err),
+    }?;
+    let cert_password = match env::var("CERTIFICATE_PASSWORD") {
+        Ok(val) => Ok(Some(val)),
+        Err(VarError::NotPresent) => Ok(None),
+        Err(err) => Err(err),
+    }?;
     let mut stream = SerialStream::new(&device)?;
 
     info!("initialized stream...");
 
-    let cert = {
-        let mut cert_file = File::open(cert_filename).await?;
-        let mut cert_raw = Vec::new();
-        cert_file.read_to_end(&mut cert_raw).await?;
-        cert_raw
-    };
+    let mut builder = TlsConnector::builder();
 
-    let tls_connector: tokio_native_tls::TlsConnector = TlsConnector::builder()
-        .identity(Identity::from_pkcs12(&cert, &cert_password)?)
-        .build()?
-        .into();
+    match (cert_filename, cert_password) {
+        (Some(cert_filename), Some(cert_password)) => {
+            let cert = {
+                let mut cert_file = File::open(cert_filename).await?;
+                let mut cert_raw = Vec::new();
+                cert_file.read_to_end(&mut cert_raw).await?;
+                cert_raw
+            };
+            builder.identity(Identity::from_pkcs12(&cert, &cert_password)?);
+        }
+        (Some(_), None) => Err(anyhow::anyhow!(
+            "certificate filename set, but no password provided"
+        ))?,
+        (None, Some(_)) => Err(anyhow::anyhow!(
+            "certificate password set, but no filename provided"
+        ))?,
+        (None, None) => {}
+    }
+
+    let tls_connector: tokio_native_tls::TlsConnector = builder.build()?.into();
+
     let mut http_connector = HttpConnector::new();
 
     http_connector.enforce_http(false);

@@ -14,13 +14,13 @@ cargo install --git https://github.com/hannes-hochreiner/sensor-net-middleware-r
 
 The program gets its configuration from the following environment variables.
 
-| Variable name | Description |
-| ---: | --- |
-| SENSOR_NET_DEVICE | The device name (e.g. "/dev/ttyUSB0") |
-| SENSOR_NET_KEY | The sensor net encryption key as a hex encoded string |
-| SENSOR_NET_ENDPOINT | URL of the Sensor Net endpoint (e.g. https://yourdomain.org/api/message) |
-| CERTIFICATE_FILENAME | filename of the client certificate |
-| CERTIFICATE_PASSWORD | password for the client certificate |
+| Variable name | Description | Required |
+| ---: | --- | :---: |
+| SENSOR_NET_DEVICE | The device name (e.g. "/dev/ttyUSB0") | yes |
+| SENSOR_NET_KEY | The sensor net encryption key as a hex encoded string | yes |
+| SENSOR_NET_ENDPOINT | URL of the Sensor Net endpoint (e.g. https://yourdomain.org/api/message) | yes |
+| CERTIFICATE_FILENAME | filename of the client certificate | no |
+| CERTIFICATE_PASSWORD | password for the client certificate | no |
 
 ```bash
   sudo SENSOR_NET_DEVICE=/dev/ttyUSB0 SENSOR_NET_KEY=<key> \
